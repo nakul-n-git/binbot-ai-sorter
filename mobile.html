@@ -338,9 +338,11 @@ button:active {
     let model, webcamStream, isVoiceOn = true;
 
     async function loadModel() {
-      const modelURL = "model.json";
-      const metadataURL = "metadata.json";
-      model = await tmImage.load(modelURL, metadataURL);
+      	const URL = "https://teachablemachine.withgoogle.com/models/6R0i11qLM/";
+		const modelURL = URL + "model.json";
+		const metadataURL = URL + "metadata.json";
+
+model = await tmImage.load(modelURL, metadataURL);
       console.log("Model loaded");
     }
 
@@ -486,4 +488,5 @@ ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
     };
   </script>
 </body>
+
 </html>

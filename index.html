@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>AI Waste Sorter Project</title>
+<title>BinBot AI Waste Sorter</title>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.9.0"></script>
 <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8.4/dist/teachablemachine-image.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
@@ -1150,6 +1150,15 @@ button:hover {background-color: #ff9844;}
 const URL = "./";
 let model, videoStream;
 let counters = {};
+
+document.addEventListener("DOMContentLoaded", function () {
+    const isMobileDevice = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const isSmallScreen = window.innerWidth < 600;
+
+    if (isMobileDevice || isSmallScreen) {
+      window.location.href = "mobile.html";
+    }
+  });
 
 window.addEventListener("DOMContentLoaded", async () => {
   const modelURL = URL + "model.json";

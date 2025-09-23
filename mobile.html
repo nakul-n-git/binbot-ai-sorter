@@ -347,33 +347,54 @@ model = await tmImage.load(modelURL, metadataURL);
     }
 
     async function startCamera() {
-      const video = document.getElementById("webcam");
-	  const message = document.getElementById("camera-message");
+  const video = document.getElementById("webcam");
+  const message = document.getElementById("camera-message");
 
-      try {
-        webcamStream = await navigator.mediaDevices.getUserMedia({ video: true });
-        video.srcObject = webcamStream;
-        video.play();
-        speak("Camera started. I'm ready to sort!");
-		message.style.display = "none"; // 👈 Hide message
+  try {
+    // Request back-facing camera
+    const constraints = {
+      video: { facingMode: { ideal: "environment" } }
+    };
 
-      } catch (err) {
-        console.error("Camera error:", err);
-        speak("Oops! I couldn't access the camera.");
+    webcamStream = await navigator.mediaDevices.getUserMedia(constraints);
+    video.srcObject = webcamStream;
+    video.play();
+
+    // Hide message overlay
+    message.style.display = "none";
+
+    // Voice greeting after user interaction
+    speechSynthesis.cancel();
+    speak("Camera started. I'm ready to sort!");
+  } catch (err) {
+    console.error("Camera error:", err);
+    message.textContent = "⚠️ Unable to access camera. Please check permissions.";
+    message.style.display = "block";
+    speak("Oops! I couldn't access the camera.");
+  }
+}
+
+   function stopCamera() {
+  const video = document.getElementById("webcam");
+  const message = document.getElementById("camera-message");
+
+  if (webcamStream && webcamStream.getTracks) {
+    webcamStream.getTracks().forEach(track => {
+      if (track.readyState === "live") {
+        track.stop();
       }
-    }
-
-    function stopCamera() {
-      const video = document.getElementById("webcam");
-	  const message = document.getElementById("camera-message");
-
-      if (webcamStream) {
-        webcamStream.getTracks().forEach(track => track.stop());
-        video.srcObject = null;
-		message.style.display = "block"; // 👈 Show message
-        speak("Camera stopped.");
-      }
-    }
+    });
+    webcamStream = null;
+    video.srcObject = null;
+    message.style.display = "block"; // 👈 Show message
+    speechSynthesis.cancel();
+    speak("Camera stopped.");
+  } else {
+    message.textContent = "⚠️ No active camera to stop.";
+    message.style.display = "block";
+    speak("No camera is currently running.");
+  }
+}
 
    
 
@@ -490,4 +511,3 @@ ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 </body>
 
 </html>
-

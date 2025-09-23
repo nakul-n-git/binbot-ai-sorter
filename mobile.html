@@ -348,7 +348,7 @@ button:active {
 </head>
 <body>
 <div id="intro-overlay">
-  <img src="images/logo/BB_heart.png" alt="BinBot" id="intro-image" />
+  <img src="images/logo/BB.png" alt="BinBot" id="intro-image" />
   <button id="play-intro">Tap to Learn How BinBot Works!</button>
   <button id="skip-intro">Skip Intro</button>
 </div>
@@ -404,7 +404,7 @@ window.addEventListener("load", () => {
   playButton.addEventListener("click", () => {
     speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(introText);
-    utterance.rate = 0.9;
+    utterance.rate = 0.8;
     utterance.pitch = 1.3;
 	utterance.volume = 1;
 
@@ -497,7 +497,7 @@ window.addEventListener("load", () => {
   const beam = document.getElementById("scan-beam");
 
   if (!model || !video.srcObject) {
-    speak("Please start the camera and load the model first.");
+    speak("Please start the camera.");
     return;
   }
 

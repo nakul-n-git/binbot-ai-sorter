@@ -68,7 +68,6 @@ body::before {
   border-radius: 16px;
   background-color: #f0f0f0;
   box-shadow: 0 0 12px rgba(76, 175, 80, 0.3);
-  transform: scaleX(-1); /* Mirror for selfie view */
 }
 
     #scan-crop {
@@ -351,7 +350,7 @@ model = await tmImage.load(modelURL, metadataURL);
   const message = document.getElementById("camera-message");
 
   try {
-    // Request back-facing camera
+    // Request camera (defaulting to back-facing)
     const constraints = {
       video: { facingMode: { ideal: "environment" } }
     };
@@ -359,6 +358,18 @@ model = await tmImage.load(modelURL, metadataURL);
     webcamStream = await navigator.mediaDevices.getUserMedia(constraints);
     video.srcObject = webcamStream;
     video.play();
+
+    // Detect actual camera used
+    const track = webcamStream.getVideoTracks()[0];
+    const settings = track.getSettings();
+    const facingMode = settings.facingMode || "environment";
+
+    // ✅ Apply mirroring only for front camera
+    if (facingMode === "user") {
+      video.style.transform = "scaleX(-1)";
+    } else {
+      video.style.transform = "scaleX(1)";
+    }
 
     // Hide message overlay
     message.style.display = "none";

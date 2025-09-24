@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="icon" href="images/logo/BB_favicon.png" type="image/png">
 <meta charset="UTF-8">
 <title>BinBot AI Waste Sorter</title>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.9.0"></script>
@@ -121,6 +122,19 @@ button {
   background: #ffffffcc;
   border-radius: 20px;
   padding: 20px;
+  position: relative; /* ✅ Needed for absolute child positioning */
+}
+
+.qr-floating {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  width: 80px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
+  background: #ffffff;
+  padding: 4px;
 }
 
 .right-panel {
@@ -966,6 +980,184 @@ button {
   position: relative;
 }
 
+.mobile-button {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  background-color: #f0f4c3; /* 🍋 Soft lemon-lime for gentle contrast */
+  color: #33691e;
+  border-radius: 16px;
+  padding: 8px 14px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(139, 195, 74, 0.3);
+  transition: transform 0.3s ease;
+  z-index: 10;
+  animation: pulseGlow 2.5s infinite;
+}
+
+.mobile-button:hover {
+  transform: scale(1.05);
+}
+
+/* Pulse animation */
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 8px rgba(139, 195, 74, 0.3);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 14px rgba(139, 195, 74, 0.5);
+    transform: scale(1.04);
+  }
+  100% {
+    box-shadow: 0 0 8px rgba(139, 195, 74, 0.3);
+    transform: scale(1);
+  }
+}
+
+
+/* Fullscreen translucent overlay */
+.qr-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.8); /* translucent white */
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+
+/* Centered QR content */
+.qr-popup-content img {
+  width: 300px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(76, 175, 80, 0.3);
+}
+
+.qr-message {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2e7d32;
+  margin-bottom: 12px;
+}
+
+.info-button {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  background-color: #f0f4c3; /* 🍋 Soft lime-yellow for gentle attention */
+  color: #33691e;
+  border-radius: 16px;
+  padding: 8px 14px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(139, 195, 74, 0.3);
+  transition: transform 0.3s ease;
+  z-index: 10;
+  animation: pulseGlow 2.5s infinite;
+}
+
+.info-button:hover {
+  transform: scale(1.05);
+}
+
+/* Reuse pulse animation */
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 8px rgba(139, 195, 74, 0.3);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 14px rgba(139, 195, 74, 0.5);
+    transform: scale(1.04);
+  }
+  100% {
+    box-shadow: 0 0 8px rgba(139, 195, 74, 0.3);
+    transform: scale(1);
+  }
+}
+
+.instruction-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.85);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  padding: 20px;
+}
+
+.instruction-content {
+  background: #f1f8e9;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 0 20px rgba(76, 175, 80, 0.3);
+  color: #2e7d32;
+  font-family: 'Segoe UI', sans-serif;
+  max-width: 480px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  text-align: left;
+  position: relative;
+}
+
+.instruction-content h2 {
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.instruction-content ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.instruction-content li {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.instruction-content li strong {
+  background-color: rgba(200, 230, 201, 0.6); /* 🍃 translucent green */
+  color: #2e7d32;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-weight: 600;
+  box-shadow: 0 0 6px rgba(76, 175, 80, 0.2);
+  transition: transform 0.3s ease;
+  display: inline-block;
+  font-size: 0.95rem;
+}
+
+.instruction-content li strong:hover {
+  transform: scale(1.05);
+}
+
+/* Close button */
+.close-button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: #2e7d32;
+  cursor: pointer;
+}
+
 button:hover {background-color: #ff9844;}
 #counter-table {margin:0 auto;border-collapse:collapse;width:100%;}
 #counter-table th,#counter-table td {border:2px solid #ffb347;padding:6px;font-size:0.9rem;text-align:center;}
@@ -1059,6 +1251,20 @@ button:hover {background-color: #ff9844;}
   </div>
 </div>
 
+<!-- Mobile Button -->
+<button class="mobile-button" onclick="showQRPopup()"> 📱 Use BinBot on your Mobile</button>
+
+<!-- Fullscreen QR Overlay -->
+<div id="qr-overlay" class="qr-overlay" onclick="hideQRPopup()">
+  <div class="qr-popup-content">
+    <p class="qr-message">Scan to use BinBot AI on your mobile</p>
+    <img src="images/page_assets/qr.png" alt="Scan to visit BinBot" />
+  </div>
+</div>
+
+<!-- Bottom-left button -->
+<div class="info-button" onclick="showInstructions()">🧠 How to Use BinBot</div>
+
 	<div id="bin-info-card" class="hidden">
   <div class="card-content">
     <div class="close-icon" onclick="hideBinInfo()">❌</div>
@@ -1070,6 +1276,8 @@ button:hover {background-color: #ff9844;}
     <p id="bin-outcome" class="bin-outcome"></p>
   </div>
 </div>
+
+
 
   </div>
   
@@ -1215,6 +1423,49 @@ document.getElementById('mute-toggle').addEventListener('click', () => {
   bgAudio.muted = !bgAudio.muted;
   updateMusicStatus();
 });
+
+function showQRPopup() {
+  const overlay = document.getElementById("qr-overlay"); // ✅ Define the variable first
+  overlay.style.display = "flex";
+
+
+  // Voice feedback
+  const msg = new SpeechSynthesisUtterance("Scan to use BinBot AI on your mobile");
+  msg.pitch = 1.3;
+  msg.rate = 0.9;
+  msg.volume = 1;
+  
+  msg.voice = speechSynthesis.getVoices().find(v => v.lang.includes("en") && v.name.includes("aria"));
+  speechSynthesis.speak(msg);
+
+// Auto-close after 3 seconds
+  setTimeout(() => {
+    overlay.style.display = "none";
+    speechSynthesis.cancel(); // Stop voice if still speaking
+  }, 7000);
+}
+
+
+function hideQRPopup() {
+  document.getElementById("qr-overlay").style.display = "none";
+  speechSynthesis.cancel(); // Stop voice if overlay is clicked
+}
+
+function showInstructions() {
+  document.getElementById("instruction-overlay").style.display = "flex";
+
+  const msg = new SpeechSynthesisUtterance("Welcome to BinBot AI. Hold an item in front of the camera and tap Identify Item. BinBot will help you sort it correctly.");
+  msg.pitch = 1.3;
+  msg.rate = 0.8;
+  ms.volume=1;
+  msg.voice = speechSynthesis.getVoices().find(v => v.lang.includes("en") && v.name.includes("aria"));
+  speechSynthesis.speak(msg);
+}
+
+function hideInstructions() {
+  document.getElementById("instruction-overlay").style.display = "none";
+  speechSynthesis.cancel();
+}
 
 function updateMusicStatus() {
   if (bgAudio.paused || bgAudio.currentTime === 0) {
@@ -1900,6 +2151,28 @@ function clearBinHighlights(){
       <div class="burst-mascot-side">
         <img src="images/logo/BB.png" alt="BinBot mascot" class="burst-mascot">
       </div>
+	  
+	  <!-- Instruction Overlay -->
+<div id="instruction-overlay" class="instruction-overlay">
+  <div class="instruction-content">
+    <button class="close-button" onclick="hideInstructions()">✖</button>
+    <h2>🌿 How to Use BinBot AI</h2>
+     <ul>
+  <li>🌳Start by clicking the <strong>Camera</strong> button in the Camera Controls to activate your camera.</li>
+  <li>🌳 Hold a common waste item in front of the camera and gently place it inside the dotted scan area.</li>
+  <li>🌳 Tap <strong>Identify Item</strong> to let BinBot scan and analyze the object.</li>
+  <li>🌳 BinBot will instantly tell you where to sort it — into the <strong>Plastic</strong> <strong>Paper</strong> or <strong>Organic</strong> bin.</li>
+  <li>🌳 Use the <strong>Music Controls</strong> to switch background music on or off — perfect for a calm sorting mood.</li>
+  <li>🌳 Click <strong>About BinBot AI</strong> to discover more about this eco-friendly project.</li>
+  <li>🌳 Click <strong>Want to Help the Planet</strong> to explore ways you can make a difference in your community.</li>
+  <li>🌳 Click the <strong>Reduce, Reuse, Recycle</strong> logo to learn more about sustainable living and waste reduction.</li>
+  <li>🌳️ Click on <strong>each Bin</strong> to learn what types of items belong in Plastic, Paper, or Organic categories.</li>
+  <li>🌳 Click <strong>Use BinBot on your Mobile</strong> and scan the QR code to try BinBot on your mobile device — scan and sort anytime, anywhere!</li>
+</ul>
+    
+  </div>
+</div>
+
     </div>
   </div>
 </div>

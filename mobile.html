@@ -392,7 +392,6 @@ button:active {
 
 window.onload = async () => {
       await loadModel();
-      speak("BinBot is ready!");
     };
 	
     async function loadModel() {
@@ -419,21 +418,42 @@ window.addEventListener("load", () => {
   const playButton = document.getElementById("play-intro");
   const skipButton = document.getElementById("skip-intro");
 
-  const introText = "Hello! I'm BinBot, your eco-friendly AI helper. I help you sort waste smartly using your camera. Tap the Start camera. Point your camera at any common waste item. Tap the Identify button to start scanning.";
+  const introPhrases = [
+    "Hello! I'm BinBot, your eco-friendly AI companion.I help you sort waste smartly using your camera.",
+	"Follow these instructions:",
+    "Tap the Start camera.",
+    "Point your camera at any common waste item",
+	"such that the whole item is within the scan area.",
+    "Tap the Identify button to start scanning.",
+	"I identify whether the waste item as Plastic, Paper or Organic.",
+	"Well, Even smart bots make silly guesses! I'm still learning, just like you!",
+	"Let's start our eco journey when you are ready!"
+  ];
+
+  let currentIndex = 0;
+
+  function speakNext() {
+    if (currentIndex < introPhrases.length) {
+      const utterance = new SpeechSynthesisUtterance(introPhrases[currentIndex]);
+      utterance.rate = 0.9;
+      utterance.pitch = 1.3;
+      utterance.volume = 1;
+
+      utterance.onend = () => {
+        currentIndex++;
+        setTimeout(speakNext, 500); // Pause between phrases
+      };
+
+      speechSynthesis.speak(utterance);
+    } else {
+      overlay.style.display = "none"; // Hide overlay after all phrases
+    }
+  }
 
   playButton.addEventListener("click", () => {
     speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(introText);
-    utterance.rate = 0.8;
-    utterance.pitch = 1.3;
-	utterance.volume = 1;
-
-    // Keep overlay visible until voice ends
-    utterance.onend = () => {
-      overlay.style.display = "none";
-    };
-
-    speechSynthesis.speak(utterance);
+    currentIndex = 0;
+    speakNext();
   });
 
   skipButton.addEventListener("click", () => {

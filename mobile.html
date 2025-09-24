@@ -424,6 +424,7 @@ window.addEventListener("load", () => {
     "Tap the Start camera.",
     "Point your camera at any common waste item",
 	"such that the whole item is within the scan area.",
+	"and ensure to minimize other objects in the background as much as possible.",
     "Tap the Identify button to start scanning.",
 	"I identify whether the waste item as Plastic, Paper or Organic.",
 	"Well, Even smart bots make silly guesses! I'm still learning, just like you!",
@@ -441,7 +442,7 @@ window.addEventListener("load", () => {
 
       utterance.onend = () => {
         currentIndex++;
-        setTimeout(speakNext, 500); // Pause between phrases
+        setTimeout(speakNext, 450); // Pause between phrases
       };
 
       speechSynthesis.speak(utterance);

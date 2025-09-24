@@ -395,7 +395,7 @@ window.onload = async () => {
     };
 	
     async function loadModel() {
-      	const URL = "https://teachablemachine.withgoogle.com/models/3RzYKWPgW/";
+      	const URL = "https://teachablemachine.withgoogle.com/models/_1zrl-gsR/";
 		const modelURL = URL + "model.json";
 		const metadataURL = URL + "metadata.json";
 
@@ -575,19 +575,18 @@ ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
   const percent = (highestProb * 100).toFixed(1) + "%";
   const resultBox = document.getElementById("result-box");
 
-  let emoji = "🌱";
-   let resultClass = "result-default";
+ let emoji = "🌱";
+let resultClass = "result-default";
 
-  if (highestClass.toLowerCase().includes("plastic")) {
-    emoji = "🧴";
-    resultClass = "result-plastic";
-  } else if (highestClass.toLowerCase().includes("paper")) {
-    emoji = "📰";
-    resultClass = "result-paper";
-  } else if (highestClass.toLowerCase().includes("organic")) {
-    emoji = "🍎";
-    resultClass = "result-organic";
-  }
+const classKey = highestClass.toLowerCase().trim();
+
+if (classKey === "non-biodegradable") {
+  emoji = "🧴";
+  resultClass = "result-plastic";
+} else if (classKey === "biodegradable") {
+  emoji = "🍎";
+  resultClass = "result-organic";
+}
 
 
   if (highestProb >= 0.85) {

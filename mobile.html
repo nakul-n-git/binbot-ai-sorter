@@ -500,7 +500,7 @@ window.addEventListener("load", () => {
   const beam = document.getElementById("scan-beam");
 
   if (!model || !video.srcObject) {
-    speak("Please start the camera.");
+    speak("Start the camera!");
     return;
   }
 
@@ -608,3 +608,4 @@ ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 </body>
 
 </html>
+

@@ -128,6 +128,7 @@ body::before {
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  z-index: 2;
 }
 
 #mascot-image {
@@ -135,6 +136,7 @@ body::before {
   height: auto;
   object-fit: contain;
   transition: transform 0.3s ease;
+  z-index: 2;
 }
 
 #mascot-image.bounce {
@@ -301,7 +303,7 @@ button:active {
   border: 2px dashed #FFC107;
   border-radius: 12px;
   pointer-events: none;
-  z-index: 2;
+  z-index: 1;
 }
 
 #intro-overlay {
@@ -500,7 +502,7 @@ window.addEventListener("load", () => {
   const beam = document.getElementById("scan-beam");
 
   if (!model || !video.srcObject) {
-    speak("Start the camera!");
+    speak("Start the camera.");
     return;
   }
 
@@ -608,4 +610,3 @@ ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 </body>
 
 </html>
-

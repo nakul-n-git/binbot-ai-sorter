@@ -427,7 +427,7 @@ window.addEventListener("load", () => {
 	"and ensure to minimize other objects in the background as much as possible.",
     "Tap the Identify button to start scanning.",
 	"I identify whether the waste item as Plastic, Paper or Organic.",
-	"Well, Even smart bots make silly guesses! I'm still learning, just like you!",
+	"Well, Even smart bots make silly mistakes! I'm still learning, just like you!",
 	"Let's start our eco journey when you are ready!"
   ];
 
@@ -590,7 +590,7 @@ ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
 
   if (highestProb >= 0.85) {
-    resultBox.textContent = `${emoji} Identified: <strong>${highestClass}</strong><br>AI Confidence: <strong>${percent}</strong>`;
+    resultBox.innerHTML = `${emoji} Identified: <strong>${highestClass}</strong><br>AI Confidence: <strong>${percent}</strong>`;
 	resultBox.className = `result-box ${resultClass}`;
     speak(`Identified item is ${highestClass}`);
     triggerBurstEffect(highestClass);

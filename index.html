@@ -1162,16 +1162,43 @@ button:hover {background-color: #ff9844;}
 #counter-table {margin:0 auto;border-collapse:collapse;width:100%;}
 #counter-table th,#counter-table td {border:2px solid #ffb347;padding:6px;font-size:0.9rem;text-align:center;}
 #counter-table th {background-color:#ffb347;color:#333;}
-.bins {display:flex;justify-content:center;gap:20px;margin-top:15px;}
-.bin {text-align:center;width:100px;position:relative;}
-.bin img {
-  width:80px;height:80px;border:5px solid transparent;border-radius:20px;
-  transition:transform 0.5s,border 0.3s;background:#f9f9f9;padding:5px;
+
+
+.bins {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  flex-wrap: wrap;
 }
-.bin.active img {border:5px solid #4CAF50;animation:bounce 0.6s;}
-.bin p {font-size:0.8rem;margin-top:5px;}
-@keyframes bounce {
-0%,20%,50%,80%,100%{transform:translateY(0);}40%{transform:translateY(-10px);}60%{transform:translateY(-5px);}}
+
+.bin {
+  text-align: center;
+  width: 180px;
+}
+
+.bin img {
+  width: 100%; /* Responsive scaling */
+  max-width: 160px;
+  height: auto;
+  border: none;
+  border-radius: 20px;
+  transition: transform 0.4s ease;
+}
+
+.bin img:hover {
+  transform: scale(1.05);
+}
+
+.bin-label {
+  margin-top: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 6px 12px;
+  border-radius: 12px;
+  display: inline-block;
+}
 </style>
 </head>
 <body>
@@ -1241,13 +1268,13 @@ button:hover {background-color: #ff9844;}
    
    <div class="bins">
   <div class="bin" id="bin-plastic" onclick="showBinInfo('plastic')">
-    <img src="images/bin/plastic.png" alt="Plastic Bin">
+    <img src="images/bin/non_bio.png" alt="Plastic Bin">
+    <p class="bin-label">Non-Biodegradable</p>
   </div>
-  <div class="bin" id="bin-paper" onclick="showBinInfo('paper')">
-    <img src="images/bin/paper.png" alt="Paper Bin">
-  </div>
+
   <div class="bin" id="bin-organic" onclick="showBinInfo('organic')">
-    <img src="images/bin/organic.png" alt="Organic Bin">
+    <img src="images/bin/bio.png" alt="Organic Bin">
+    <p class="bin-label">Biodegradable</p>
   </div>
 </div>
 
@@ -1525,12 +1552,14 @@ function speakCameraStatus(message) {
 function triggerLeafBurst(className) {
   const container = document.getElementById('leaf-burst-container');
 
-  // Choose leaf type based on class
   let leafType = '🍃'; // default
-  const lc = className.toLowerCase();
-  if (lc.includes('plastic')) leafType = '🍁';     // bold, synthetic feel
-  if (lc.includes('paper'))   leafType = '🍂';     // crisp and fluttery
-  if (lc.includes('organic')) leafType = '🌿';     // soft and natural
+const lc = className.toLowerCase().trim();
+
+if (lc === 'non-biodegradable') {
+  leafType = '🍁'; // bold, synthetic feel
+} else if (lc === 'biodegradable') {
+  leafType = '🌿'; // soft and natural
+}
 
   for (let i = 0; i < 12; i++) {
     const leaf = document.createElement('span');
@@ -1552,9 +1581,8 @@ function playChime() {
 }
 
 const scoreWeights = {
-  organic: 5,
-  paper: 3,
-  plastic: -1
+  biodegradable: 5,
+  "non-biodegradable": -2
 };
 
 let greenScore = 0;
@@ -1578,19 +1606,13 @@ function showBinInfo(binType) {
 
   let binData = {
     plastic: {
-      label: "Plastic Bin",
+      label: "Non-Biodegradable Bin",
       icon: "images/page_assets/plastic_icon.png",
       items: ["Bottles", "Wrappers", "Containers", "Bags"],
-      outcome: "These are recycled into new plastic products!"
-    },
-    paper: {
-      label: "Paper Bin",
-      icon: "images/page_assets/paper_icon.png",
-      items: ["Newspapers", "Cardboard", "Notebooks", "Envelopes"],
-      outcome: "These are pulped and reused to make fresh paper!"
+      outcome: "These are recycled into new products!"
     },
     organic: {
-      label: "Organic Bin",
+      label: "Biodegradable Bin",
       icon: "images/page_assets/organic_icon.png",
       items: ["Fruit peels", "Veggie scraps", "Tea leaves", "Garden waste"],
       outcome: "These turn into compost that helps plants grow!"
@@ -1831,14 +1853,18 @@ const percent = (highestProb * 100).toFixed(1) + "%";
 const resultBox = document.getElementById("result-box");
 
 // Choose emoji based on class
+const classification = highestClass.toLowerCase().trim();
 let emoji = "🌱";
-if (highestClass.toLowerCase().includes("plastic")) emoji = "🧴";
-if (highestClass.toLowerCase().includes("paper")) emoji = "📰";
-if (highestClass.toLowerCase().includes("organic")) emoji = "🍎";
+
+if (classification === "non-biodegradable") {
+  emoji = "🧴";
+} else if (classification === "biodegradable") {
+  emoji = "🍎";
+}
 
 // Confidence threshold logic
 if (highestProb >= 0.85) {
-  resultBox.textContent = `${emoji} Identified: ${highestClass} (${percent})`;
+  resultBox.innerHTML = `${emoji} Identified: <strong>${highestClass}</strong><br>AI Confidence: <strong>${percent}</strong>`;
   highlightBin(highestClass);
   speakText(highestClass);
   triggerLeafBurst(highestClass);
@@ -1865,22 +1891,18 @@ document.getElementById("close-photo").addEventListener("click", () => {
   
 
   let color = "#4CAF50";
-  let textColor = "#fff";
-  let boxShadow = "0 0 15px rgba(76, 175, 80, 0.6)";
+let textColor = "#fff";
+let boxShadow = "0 0 15px rgba(76, 175, 80, 0.6)";
 
-  if (highestClass.toLowerCase().includes("plastic")) {
-    color = "#F44336";
-    boxShadow = "0 0 15px rgba(244, 67, 54, 0.6)";
-  }
-  if (highestClass.toLowerCase().includes("paper")) {
-    color = "#FFC107";
-    textColor = "#333";
-    boxShadow = "0 0 15px rgba(255, 193, 7, 0.6)";
-  }
-  if (highestClass.toLowerCase().includes("organic")) {
-    color = "#4CAF50";
-    boxShadow = "0 0 15px rgba(76, 175, 80, 0.6)";
-  }
+const classKey = highestClass.toLowerCase().trim();
+
+if (classKey === "non-biodegradable") {
+  color = "#F44336";
+  boxShadow = "0 0 15px rgba(244, 67, 54, 0.6)";
+} else if (classKey === "biodegradable") {
+  color = "#4CAF50";
+  boxShadow = "0 0 15px rgba(76, 175, 80, 0.6)";
+}
 
   const dropItem = document.getElementById("drop-item");
   const spark = document.getElementById("spark");
@@ -1888,10 +1910,14 @@ document.getElementById("close-photo").addEventListener("click", () => {
   dropItem.textContent = emoji;
   dropItem.style.opacity = "1";
 
-  let binElement;
-  if (highestClass.toLowerCase().includes("plastic")) binElement = document.getElementById("bin-plastic");
-  if (highestClass.toLowerCase().includes("paper")) binElement = document.getElementById("bin-paper");
-  if (highestClass.toLowerCase().includes("organic")) binElement = document.getElementById("bin-organic");
+ let binElement;
+const dropClass = highestClass.toLowerCase().trim();
+
+if (dropClass === "non-biodegradable") {
+  binElement = document.getElementById("bin-plastic");
+} else if (dropClass === "biodegradable") {
+  binElement = document.getElementById("bin-organic");
+}
 
   if (binElement) {
     const binRect = binElement.getBoundingClientRect();
@@ -1921,16 +1947,15 @@ document.getElementById("close-photo").addEventListener("click", () => {
   if (el) el.textContent = counters[highestClass];
 
   try {
-    const binClassKey = highestClass.toLowerCase();
-    let pointsEarned = 0;
+    const binClassKey = highestClass.toLowerCase().trim(); // Normalize input
+	let pointsEarned = 0;
 
-    if (binClassKey.includes("organic")) {
-      pointsEarned = scoreWeights.organic;
-    } else if (binClassKey.includes("paper")) {
-      pointsEarned = scoreWeights.paper;
-    } else if (binClassKey.includes("plastic")) {
-      pointsEarned = scoreWeights.plastic;
-    }
+
+    if (binClassKey === "biodegradable") {
+  pointsEarned = scoreWeights.biodegradable;
+} else if (binClassKey === "non-biodegradable") {
+  pointsEarned = scoreWeights["non-biodegradable"];
+}
 
     greenScore += pointsEarned;
     updateGreenScoreDisplay(pointsEarned);
@@ -1995,17 +2020,14 @@ function speakText(itemClass) {
 
 function highlightBin(className){
  clearBinHighlights();
- if(className.toLowerCase().includes("plastic")){
+ if(className.toLowerCase().includes("Non-Biodegradable")){
    document.getElementById("bin-plastic").classList.add("active");}
- else if(className.toLowerCase().includes("paper")){
-   document.getElementById("bin-paper").classList.add("active");}
- else if(className.toLowerCase().includes("organic")){
+ else if(className.toLowerCase().includes("Biodegradable")){
    document.getElementById("bin-organic").classList.add("active");}
  setTimeout(clearBinHighlights,800);
 }
 function clearBinHighlights(){
  document.getElementById("bin-plastic").classList.remove("active");
- document.getElementById("bin-paper").classList.remove("active");
  document.getElementById("bin-organic").classList.remove("active");
 }
 </script>
@@ -2159,7 +2181,7 @@ function clearBinHighlights(){
     <h2>🌿 How to Use BinBot AI</h2>
      <ul>
   <li>🌳Start by clicking the <strong>Camera</strong> button in the Camera Controls to activate your camera.</li>
-  <li>🌳 Hold a common waste item in front of the camera and gently place it inside the dotted scan area.</li>
+  <li>🌳 Hold a common waste item in front of the camera and position it such that the whole item is inside the dotted scan area.</li>
   <li>🌳 Tap <strong>Identify Item</strong> to let BinBot scan and analyze the object.</li>
   <li>🌳 BinBot will instantly tell you where to sort it — into the <strong>Plastic</strong> <strong>Paper</strong> or <strong>Organic</strong> bin.</li>
   <li>🌳 Use the <strong>Music Controls</strong> to switch background music on or off — perfect for a calm sorting mood.</li>

@@ -1173,12 +1173,12 @@ button:hover {background-color: #ff9844;}
 
 .bin {
   text-align: center;
-  width: 180px;
+  width: 130px;
 }
 
 .bin img {
   width: 100%; /* Responsive scaling */
-  max-width: 160px;
+  max-width: 90px;
   height: auto;
   border: none;
   border-radius: 20px;
@@ -1203,14 +1203,20 @@ button:hover {background-color: #ff9844;}
 </head>
 <body>
 <div class="tips-panel">
-  <h2>♻️ Sorting Tips</h2>
-  <ul>
-    <li><strong>Plastic:</strong> Bottles, wrappers, containers. Rinse before recycling!</li>
-    <li><strong>Paper:</strong> Newspapers, notebooks, cardboard. Keep it dry!</li>
-    <li><strong>Organic:</strong> Food scraps, leaves, peels. Compost if possible!</li>
-    <li><strong>Mixed items:</strong> Separate parts before sorting (e.g., plastic + paper).</li>
-    <li><strong> Reuse before recycle</strong></li>
-  </ul>
+ 
+ <h2>♻️ Sorting Tips</h2>
+
+<div class="sorting-tips">
+  <div class="tip-section">
+    <h3 style="color: #4CAF50;">🍎 Biodegradable</h3>
+    <p><strong>Food scraps, peels, leaves </strong>— anything nature can break down.</p>
+  </div>
+
+  <div class="tip-section">
+    <h3 style="color: #2196F3;">🧴 Non-Biodegradable</h3>
+    <p><strong>Plastic bottles, wrappers, and dry paper </strong>— anything that man can recycle (or try to).</p>
+  </div>
+</div>
   <div class="rrr-logo">
   <img src="images/page_assets/rrr_logo.gif" alt="RRR Logo" onclick="showRRR()" style="cursor: pointer;">
   <p class="rrr-caption">Tap the logo to explore RRR and its eco benefits!</p>
@@ -1269,12 +1275,12 @@ button:hover {background-color: #ff9844;}
    <div class="bins">
   <div class="bin" id="bin-plastic" onclick="showBinInfo('plastic')">
     <img src="images/bin/non_bio.png" alt="Plastic Bin">
-    <p class="bin-label">Non-Biodegradable</p>
+    <!-- <p class="bin-label">Non-Biodegradable</p> -->
   </div>
 
   <div class="bin" id="bin-organic" onclick="showBinInfo('organic')">
     <img src="images/bin/bio.png" alt="Organic Bin">
-    <p class="bin-label">Biodegradable</p>
+    <!-- <p class="bin-label">Biodegradable</p> -->
   </div>
 </div>
 

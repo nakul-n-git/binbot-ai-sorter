@@ -390,6 +390,11 @@ button:active {
   <script>
     let model, webcamStream, isVoiceOn = true;
 
+window.onload = async () => {
+      await loadModel();
+      speak("BinBot is ready!");
+    };
+	
     async function loadModel() {
       	const URL = "https://teachablemachine.withgoogle.com/models/3RzYKWPgW/";
 		const modelURL = URL + "model.json";
@@ -397,6 +402,16 @@ button:active {
 
 model = await tmImage.load(modelURL, metadataURL);
       console.log("Model loaded");
+	  
+ // 🔥 Warm-up with blank canvas
+  const dummyCanvas = document.createElement("canvas");
+  dummyCanvas.width = 160;
+  dummyCanvas.height = 160;
+  const dummyCtx = dummyCanvas.getContext("2d");
+  dummyCtx.fillStyle = "#fff";
+  dummyCtx.fillRect(0, 0, 160, 160);
+  await model.predict(dummyCanvas);
+  console.log("✅ Model warmed up");
     }
 
 window.addEventListener("load", () => {
@@ -602,10 +617,7 @@ ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
   setTimeout(() => mascot.classList.remove("bounce"), 600);
 }
 
-    window.onload = async () => {
-      await loadModel();
-      speak("BinBot is ready!");
-    };
+    
   </script>
 </body>
 

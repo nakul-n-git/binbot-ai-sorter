@@ -161,26 +161,25 @@ body::before {
   transition: background-color 0.3s ease;
 }
 
-/* Default */
+/* ✅ Default (Unsorted or Neutral) */
 .result-default {
-  background-color: #e8f5e9;
-  border: 2px solid #81c784;
-  color: #2e7d32;
+  background-color: #e8f5e9;     /* Light green */
+  border: 2px solid #81c784;     /* Medium green */
+  color: #2e7d32;                /* Dark green */
 }
 
-/* Plastic → Red */
+/* 🧴 Plastic (Dry Waste) */
 .result-plastic {
-  background-color: #2196F3;
-  border: 2px solid #e8f5e9;
-  color: #b71c1c;
+  background-color: #2196F3;     /* Bright blue */
+  border: 2px solid #b71c1c;     /* Deep red border for urgency */
+  color: #e8f5e9;                /* Light green text for contrast */
 }
 
-
-/* Organic → Green */
+/* 🍃 Organic (Wet Waste) */
 .result-organic {
-  background-color: #e8f5e9;
-  border: 2px solid #2196F3;
-  color: #1b5e20;
+  background-color: #81c784;     /* Medium green */
+  border: 2px solid #2196F3;     /* Bright blue border for contrast */
+  color: #1b5e20;                /* Very dark green text */
 }
 
     .camera-controls {
@@ -586,7 +585,7 @@ if (classKey === "dry") {
 
 
   if (highestProb >= 0.85) {
-    resultBox.innerHTML = `${emoji} Identified: <strong>${highestClass}</strong><br>AI Confidence: <strong>${percent}</strong>`;
+    resultBox.innerHTML = `${emoji} Identified: <strong>${highestClass}</strong> Waste<br>AI Confidence: <strong>${percent}</strong>`;
 	resultBox.className = `result-box ${resultClass}`;
     speak(`Identified item is ${highestClass} waste`);
     triggerBurstEffect(highestClass);
@@ -597,7 +596,7 @@ if (classKey === "dry") {
   }, 4000);
 
   } else {
-    resultBox.textContent = `🤔 Still thinking... (${percent})`;
+    resultBox.textContent = `🤔 Still thinking... br>AI Confidence: <strong>${percent}</stron)`;
 	resultBox.className = "result-box result-default";
     speak("Hmm... I’m not confident yet. Let me take another look!");
 	

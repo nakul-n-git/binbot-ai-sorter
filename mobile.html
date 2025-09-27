@@ -397,7 +397,7 @@ button:active {
 <button class="big-identify-button" onclick="identifyOnce()">Scan Item</button>
 <div id="result-box" class="result-box result-default">Waiting for identification</div>
  <div class="camera-controls">
-  <button class="start-button" onclick="startCamera()">Start Camera</button>
+  <!-- <button class="start-button" onclick="startCamera()">Start Camera</button> -->
   <button class="stop-button" onclick="stopCamera()">Stop Camera</button>
 </div>
 
@@ -407,7 +407,7 @@ button:active {
 
 <!-- Background Music -->
   <audio id="bgm" preload="auto">
-    <source src="/sounds/mobile_intro.mp3" preload="auto">
+    <source src="/sounds/mobile.mp3" preload="auto">
     Your browser does not support the audio element.
   </audio>
 
@@ -547,7 +547,7 @@ function speakNext() {
 
     // Voice greeting after user interaction
     speechSynthesis.cancel();
-    speak("Camera started.");
+   // speak("Camera started.");
   } catch (err) {
     console.error("Camera error:", err);
     message.textContent = "⚠️ Unable to access camera. Please check permissions.";
@@ -581,14 +581,16 @@ function speakNext() {
    
 
     async function identifyOnce() {
-		
+
+startCamera();
+
   const video = document.getElementById("webcam");
   const beam = document.getElementById("scan-beam");
 
-  //if (!model || !video.srcObject) {
-   // speak("Start the camera.");
-   // return;
-  //}
+  if (!model || !video.srcObject) {
+    speak("Start the camera.");
+    return;
+  }
 
   // Show the scan beam
   beam.style.display = "block";

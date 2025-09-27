@@ -372,7 +372,7 @@ button:active {
 
 <div id="intro-overlay">
   <img src="images/logo/BB.png" alt="BinBot" id="intro-image" />
-  <button id="play-intro">Tap to Learn How BinBot Works!</button>
+  <button id="play-intro">How to use BinBot AI</button>
   <button id="skip-intro">Skip Intro</button>
 </div>
 
@@ -478,11 +478,6 @@ window.addEventListener("load", () => {
 
 function speakNext() {
   if (currentIndex < introPhrases.length) {
-    if (isMuted) {
-      currentIndex++;
-      setTimeout(speakNext, 450);
-      return;
-    }
 
     const utterance = new SpeechSynthesisUtterance(introPhrases[currentIndex]);
     utterance.rate = 0.9;
@@ -586,13 +581,16 @@ function speakNext() {
    
 
     async function identifyOnce() {
+	
+	startCamera();
+	
   const video = document.getElementById("webcam");
   const beam = document.getElementById("scan-beam");
 
-  if (!model || !video.srcObject) {
-    speak("Start the camera.");
-    return;
-  }
+  //if (!model || !video.srcObject) {
+   // speak("Start the camera.");
+   // return;
+  //}
 
   // Show the scan beam
   beam.style.display = "block";

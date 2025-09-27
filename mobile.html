@@ -410,12 +410,6 @@ button:active {
   
  const audio = document.getElementById("bgm");
 
-// Function to play music once per session
-function playIntroMusic() {
-    audio.play().catch(err => {
-      console.log("Autoplay blocked:", err);
-    });
-}
 
 let isMuted = false;
 
@@ -537,8 +531,6 @@ function speakNext() {
 
     // Hide message overlay
     message.style.display = "none";
-	  // Show the scan beam
-	beam.style.display = "block";
 
     // Voice greeting after user interaction
     speechSynthesis.cancel();
@@ -580,11 +572,13 @@ function speakNext() {
   const video = document.getElementById("webcam");
   const beam = document.getElementById("scan-beam");
 
-  if (!model || !video.srcObject) {
-    speak("Start the camera.");
-   return;
-  }
+  //if (!model || !video.srcObject) {
+   // speak("Start the camera.");
+   // return;
+  //}
 
+  // Show the scan beam
+  beam.style.display = "block";
 
   // Capture frame
   const canvas = document.createElement("canvas");

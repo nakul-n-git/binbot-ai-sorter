@@ -405,8 +405,18 @@ button:active {
   Even smart bots make silly guesses! <br> I'm still learning, just like you!
 </div>
 
+
   <script>
   
+ const audio = document.getElementById("bgm");
+
+// Function to play music once per session
+function playIntroMusic() {
+    audio.play().catch(err => {
+      console.log("Autoplay blocked:", err);
+    });
+}
+
 let isMuted = false;
 
 const muteToggle = document.getElementById("mute-toggle");
@@ -477,7 +487,6 @@ function speakNext() {
     speechSynthesis.speak(utterance);
   } else {
     overlay.style.display = "none";
-    playMusicOnce();
   }
 }
 
@@ -490,7 +499,6 @@ function speakNext() {
   skipButton.addEventListener("click", () => {
     speechSynthesis.cancel();
     overlay.style.display = "none";
-	playIntroMusic(); // 🔊 Play music
 
   });
 });
@@ -529,6 +537,8 @@ function speakNext() {
 
     // Hide message overlay
     message.style.display = "none";
+	  // Show the scan beam
+	beam.style.display = "block";
 
     // Voice greeting after user interaction
     speechSynthesis.cancel();
@@ -570,13 +580,11 @@ function speakNext() {
   const video = document.getElementById("webcam");
   const beam = document.getElementById("scan-beam");
 
-  //if (!model || !video.srcObject) {
-   // speak("Start the camera.");
-   // return;
-  //}
+  if (!model || !video.srcObject) {
+    speak("Start the camera.");
+   return;
+  }
 
-  // Show the scan beam
-  beam.style.display = "block";
 
   // Capture frame
   const canvas = document.createElement("canvas");

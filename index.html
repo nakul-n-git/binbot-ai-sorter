@@ -1613,11 +1613,11 @@ function showQRPopup() {
   msg.voice = speechSynthesis.getVoices().find(v => v.lang.includes("en") && v.name.includes("aria"));
   speechSynthesis.speak(msg);
 
-// Auto-close after 3 seconds
+// Auto-close after 10 seconds
   setTimeout(() => {
     overlay.style.display = "none";
     speechSynthesis.cancel(); // Stop voice if still speaking
-  }, 7000);
+  }, 10000);
 }
 
 
